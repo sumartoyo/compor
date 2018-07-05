@@ -71,6 +71,8 @@ import Compor, { Nothing } from 'compor';
 </Compor>
 ```
 
+Since React v16.2.0 you can also use [empty tag](https://reactjs.org/blog/2017/11/28/react-v16.2.0-fragment-support.html).
+
 ### But render is not expensive!
 
 Okay okay, I know gearon [said](https://github.com/facebook/react/issues/8669#issuecomment-270113350) render is not expensive, but it is only if your render is not expensive! Render _can_ be expensive if you execute expensive things in render! Expensive equals expensive, unexpensive equals unexpensive!
@@ -79,11 +81,24 @@ To be fair, Compor is about preventing __wasted__ render, not __expensive__ rend
 
 ### Is there any performance hit?
 
-Hmmm, well, Compor's `shouldComponentUpdate` is practically almost the same as PureComponent so there's no significant hit here. And also, Compor's `render` is not doing that much. I think you should read the code yourself to answer this question.
+Hmmm, well, Compor's `shouldComponentUpdate` is practically almost the same as PureComponent so there's no significant hit here. And also, Compor's `render` is not doing that much. I think you should read the code yourself to answer this question. Biggest hit I felt is it makes the code slightly uglier.
+
+### Can I extends from Compor?
+
+Sure, nothing can stop you. Compor has `getRealProps` method to get the _real_ props for you.
+
+```jsx
+class MyComponent extends Compor {
+  render() {
+    const props = this.getRealProps();
+    ...
+  }
+}
+```
 
 ## Installation
 
-This is a WIP and not in npm yet. I don't think I will publish it in npm because of how simple it is. So, you install it by copying the files to your project.
+This is a WIP and not in npm yet. I don't think I will publish it in npm because of how simple it is. So, you can install it by copying the files to your project.
 
 ## License
 

@@ -6,6 +6,25 @@ const PREFIX_KEEP_LENGTH = PREFIX_KEEP.length;
 export default class Compor extends React.Component {
   render() {
     const Component = this.props.ctype;
+    const props = this.getRealProps();
+    return <Component {...props} />;
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const prevKeys = Object.keys(this.props);
+    const nextKeys = Object.keys(nextProps);
+    if (prevKeys.length !== nextKeys.length) return true;
+
+    for (let key of nextKeys) {
+      if (key.startsWith(PREFIX_KEEP)) continue;
+      if (key === 'children' && typeof(this.props[key]) === 'function') continue;
+      if (this.props[key] !== nextProps[key]) return true;
+    }
+
+    return false;
+  }
+
+  getRealProps = () => {
     const props = {};
 
     Object.keys(this.props).forEach(key => {
@@ -22,21 +41,7 @@ export default class Compor extends React.Component {
       props.children = props.children();
     }
 
-    return <Component {...props} />;
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const prevKeys = Object.keys(this.props);
-    const nextKeys = Object.keys(nextProps);
-    if (prevKeys.length !== nextKeys.length) return true;
-
-    for (let key of nextKeys) {
-      if (key.startsWith(PREFIX_KEEP)) continue;
-      if (key === 'children' && typeof(this.props[key]) === 'function') continue;
-      if (this.props[key] !== nextProps[key]) return true;
-    }
-
-    return false;
+    return props;
   }
 }
 
