@@ -85,7 +85,7 @@ Hmmm, well, Compor's `shouldComponentUpdate` is practically almost the same as P
 
 ### Can I extends from Compor?
 
-Sure, nothing can stop you. Compor has `getRealProps` method to get the _real_ props for you.
+Sure, nothing can stop you. Compor has `getRealProps` method to get the _real_ props (excluded `ctype` and stripped `keep_` prefix).
 
 ```jsx
 class MyComponent extends Compor {
